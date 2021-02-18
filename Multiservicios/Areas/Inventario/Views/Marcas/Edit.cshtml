@@ -1,0 +1,114 @@
+﻿@model Multiservicios.Models.ViewModels.CategoriaAndMarcasViewModel
+@using Multiservicios.Extensions
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h2 class="text-info">Editar Marca</h2>
+<br />
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+<div class="border backgroundWhite row">
+    <div class="col-8 border-right">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="Marcas.CategoriaId" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <select id="ddlDepartamentolist" asp-for="Marcas.CategoriaId" asp-items="Model.CategoriaList.ToSelectListITem(Model.Marcas.CategoriaId)" class="form-control"></select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="Marcas.Nombre" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="Marcas.Nombre" class="form-control" />
+                </div>
+                <span asp-validation-for="Marcas.Nombre" class="text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="Marcas.Tipo_Activo" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="Marcas.Tipo_Activo" class="form-control" />
+                </div>
+                <span asp-validation-for="Marcas.Tipo_Activo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="Marcas.Estado" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="Marcas.Estado" class="form-control" />
+                </div>
+                <span asp-validation-for="Marcas.Estado" class="text-danger"></span>
+            </div>
+
+
+
+            <div class="form-group row">
+                <div class="col-5 offset-3">
+                    <partial name="_EditAndBackToListButton" />
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="col-3 offset-1">
+        @if (Model.MarcasList.Count() > 0)
+        {
+            <p> Areas Existentes: </p>
+
+            <div id="MarcasList">
+                <ul class="list-group"></ul>
+            </div>
+        }
+    </div>
+
+
+
+</div>
+
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        function updateMarcasList() {
+            var categoriaSelected = document.getElementById("ddlCategorialist").value;
+            $list = $('#MarcasList');
+            $.ajax({
+                url: '/Inventario/Marcas/GetMarcas/' + departamentoSelected,
+                type: 'GET',
+                dataType: 'text',
+                success: function (data) {
+                    results = JSON.parse(data);
+                    $list.html('');
+                    $list.append(' <ul class="list-group"> ');
+                    for (i in results) {
+                        $list.append('<li class="list-group-item">' + results[i].text + '</li>');
+                    }
+                    $list.append('</ul>');
+                }
+            });
+        }
+        $(document).ready(function () {
+            updateMarcasList();
+        });
+        $("#ddlCategorialist").on("change", function () {
+            updateMarcasList();
+        });
+    </script>
+
+
+}

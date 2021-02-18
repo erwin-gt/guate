@@ -1,0 +1,125 @@
+﻿@model Multiservicios.Models.ViewModels.ActivoItemViewModel
+@using Multiservicios.Extensions
+
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Crear Activo</h1>
+
+<br />
+<br />
+<div class="border backgroundWhite">
+    <div class="col-5 border-right">
+
+        <form method="post" asp-action="Create">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="Activo.CategoriaId" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <select id="ddlCategorialist" asp-for="Activo.CategoriaId" asp-items="Model.Categoria.ToSelectListITem(Model.Activo.CategoriaId)" class="form-control"></select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Activo.Nombre" class="col-form-label"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Activo.Nombre" class="form-control" />
+                </div>
+                <span asp-validation-for="Activo.Nombre" class="text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Activo.Cantidad" class="col-form-label"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Activo.Cantidad" class="form-control" />
+                </div>
+                <span asp-validation-for="Activo.Cantidad" class="text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Activo.Fecha_Adquisicion" class="col-form-label"></label>
+                </div>
+                <div class="col-8">
+                    <input type="date" data-val="true" asp-for="Activo.Nombre" class="form-control" />
+                </div>
+                <span asp-validation-for="Activo.Fecha_Adquisicion" class="text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Activo.No_" class="col-form-label"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Activo.No_" class="form-control" />
+                </div>
+                <span asp-validation-for="Activo.No_" class="text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="Activo.MarcaId" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <select id="ddlMarcalist" asp-for="Activo.MarcaId" asp-items="Model.Marca.ToSelectListITem(Model.Activo.MarcaId)" class="form-control"></select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="Activo.ProveedorId" class="col-form-label"></label>
+                </div>
+                <div class="col-5">
+                    <select id="ddlProveedorlist" asp-for="Activo.ProveedorId" asp-items="Model.Proveedor.ToSelectListITem(Model.Activo.ProveedorId)" class="form-control"></select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Activo.Descripcion" class="col-form-label"></label>
+                </div>
+                <div class="col-8">
+                    @Html.TextAreaFor(m => m.Activo.Descripcion)
+                </div>
+                <span asp-validation-for="Activo.Descripcion" class="text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-5 offset-3">
+                    <partial name="_CreateBackToListButton" />
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts{
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    
+    <!--
+              Caja de Texto: Descripcion
+            -->
+
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: "lists",
+            menubar: 'file edit format'
+        });
+    </script>
+}
